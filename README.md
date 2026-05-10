@@ -90,7 +90,7 @@ Copy Fail was the motivation for starting this research. In particular, xfrm-ESP
 
 Refer to the Mitigation and [Disclosure Timeline sections](assets/write-up.md). Due to external factors, the embargo has been broken, so no patch exists for any distribution.
 
-## Crosscompile on DEBIAN13
+## Crosscompile on Debian 13
 
 On Debian, the easiest way is to use the Android NDK toolchain with Clang.
 
