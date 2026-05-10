@@ -89,3 +89,75 @@ Copy Fail was the motivation for starting this research. In particular, xfrm-ESP
 ## So, how do I fix my Linux?
 
 Refer to the Mitigation and [Disclosure Timeline sections](assets/write-up.md). Due to external factors, the embargo has been broken, so no patch exists for any distribution.
+
+## Crosscompile on DEBIAN13
+
+On Debian, the easiest way is to use the Android NDK toolchain with Clang.
+
+Install the basic dependencies first:
+
+sudo apt update
+
+sudo apt install -y \
+    git \
+    build-essential \
+    clang \
+    lld \
+    cmake \
+    ninja-build \
+    unzip \
+    wget \
+    openjdk-21-jdk
+
+Then download the Android NDK:
+
+mkdir -p ~/Android
+cd ~/Android
+
+wget https://dl.google.com/android/repository/android-ndk-r27c-linux.zip
+
+unzip android-ndk-r27c-linux.zip
+
+Set environment variables:
+
+export ANDROID_NDK_HOME=$HOME/Android/android-ndk-r27c
+export TOOLCHAIN=$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin
+
+Then compile for ARM64 Android (aarch64-linux-android):
+
+$TOOLCHAIN/aarch64-linux-android34-clang \
+    -O2 \
+    exp.c \
+    -o dirtyfrag
+
+For broader compatibility with older Android versions:
+
+$TOOLCHAIN/aarch64-linux-android24-clang \
+    -O2 \
+    exp.c \
+    -o dirtyfrag
+
+You can verify the output binary:
+
+file dirtyfrag
+
+Expected output:
+
+ELF 64-bit LSB pie executable, ARM aarch64, Android
+
+To push it to your Redmi 13:
+
+adb push dirtyfrag /data/local/tmp/
+adb shell chmod +x /data/local/tmp/dirtyfrag
+
+Install ADB on Debian if needed:
+
+sudo apt install android-sdk-platform-tools
+
+You may hit compile errors because the source targets glibc/Linux desktop environments rather than Android’s Bionic libc. Common fixes involve:
+
+adding missing includes
+replacing unsupported syscalls
+removing Linux-desktop-only functionality
+
+If you paste the compiler output, I can help patch it for Android ARM64.
