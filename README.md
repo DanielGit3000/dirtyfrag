@@ -121,6 +121,7 @@ unzip android-ndk-r27c-linux.zip
 Set environment variables:
 
 export ANDROID_NDK_HOME=$HOME/Android/android-ndk-r27c
+
 export TOOLCHAIN=$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin
 
 Then compile for ARM64 Android (aarch64-linux-android):
