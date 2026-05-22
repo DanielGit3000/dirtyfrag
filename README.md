@@ -126,17 +126,11 @@ export TOOLCHAIN=$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin
 
 Then compile for ARM64 Android (aarch64-linux-android):
 
-$TOOLCHAIN/aarch64-linux-android34-clang \
-    -O2 \
-    exp.c \
-    -o dirtyfrag
+$TOOLCHAIN/aarch64-linux-android34-clang -O2 exp.c -o dirtyfrag-aarch64-linux-android34-clang
 
 For broader compatibility with older Android versions:
 
-$TOOLCHAIN/aarch64-linux-android24-clang \
-    -O2 \
-    exp.c \
-    -o dirtyfrag
+$TOOLCHAIN/aarch64-linux-android24-clang -O2 exp.c -o dirtyfrag-aarch64-linux-android24-clang
 
 You can verify the output binary:
 
